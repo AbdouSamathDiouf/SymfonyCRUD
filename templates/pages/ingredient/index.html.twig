@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes ingrédients{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-3"> Mes ingrédients</h1>
+
+        <a class="btn btn-primary my-3" href="{{path ('ingredient.new') }}"> Créer un ingrédient </a>
+
+        {% for message in app.flashes('success') %}
+          <div class="alert alert-success mt-3">
+              {{message}}
+          </div>
+        {% endfor %}
+
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Numéro</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Date de création</th>
+                <th scope="col">Edition</th>
+                <th scope="col">Suppression</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for ingredient in ingredients %}
+                    <tr class="table-primary">
+                        <th scope="row">{{ ingredient.id }}</th>
+                        <td>{{ ingredient.name }}</td>
+                        <td>{{ ingredient.price }}</td>
+                        <td>{{ ingredient.createdAt |date("d/m/Y") }}</td>
+                        <td>
+                          <a class="btn btn-secondary" href="{{ path('ingredient.edit', {id: ingredient.id}) }}">Modifier</a> 
+                        </td>
+                        <td>
+                          <a class="btn btn-warning" href="{{ path('ingredient.delete', {id: ingredient.id}) }}">Supprimer</a>  
+                        </td>
+                      </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          <div class="navigation d-flex justify-content-center">
+            {{ knp_pagination_render(ingredients) }}
+        </div>
+        
+    </div>
+{% endblock %}
